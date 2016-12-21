@@ -1,0 +1,21 @@
+body {
+    margin: 10px;
+}
+
+#head{
+    padding: 10px;
+    margin: 10px;
+    text-align: right;
+    border-bottom: 1px solid #333;
+}
+
+#nav {
+    float: left;
+    width: 15%;
+}
+
+#main {
+    float: left;
+    border-left: 1px solid #333;
+    padding: 10px;
+}

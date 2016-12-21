@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:task="http://www.springframework.org/schema/task" xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/task
+    http://www.springframework.org/schema/task/spring-task.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+	<!-- 问题：spring quartz注解和shiro一起使用，service层的aop（cglib+Aspect）将失效-->
+    <!-- 解决方案：
+    	 添加quartz-schduler，使用spring quartz xml的方式。
+    	 此时问题来了，shiro默认使用quartz1.6.1，而spring4.x的spring-context-support默认使用quartz2，
+    	 因此我们需要替换shiro-quartz，升级quartz2。
+     -->
+
+    <!-- 该配置使用spring自带的quartz，识别@Scheduled -->
+	<!--<task:annotation-driven />-->
+ 	<context:component-scan base-package="com.yingjun.ssm.quartz"/>
+
+    <!-- 定义调用对象和调用对象的方法 -->
+    <bean id="clearCacheJobTask" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <!-- 调用的类 -->
+        <property name="targetObject">
+            <ref bean="bizQuartz" />
+        </property>
+        <!-- 调用类中的方法 -->
+        <property name="targetMethod">
+            <value>clearCache</value>
+        </property>
+
+    </bean>
+    <!-- 定义触发时间 -->
+    <bean id="clearCacheJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail">
+            <ref bean="clearCacheJobTask" />
+        </property>
+        <!-- cron表达式 -->
+        <property name="cronExpression">
+            <value>0 0/5 * * * ? </value> <!-- 每天9点到17点每过1小时统计一次在线人数。【秒 分钟 小时 天 月 周几】 -->
+        </property>
+    </bean>
+
+    <!-- 总管理类 如果将lazy-init='false'那么容器启动就会执行调度程序 -->
+    <bean id="startQuertz" lazy-init="false" autowire="no" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="triggers">
+            <list>
+                <ref bean="clearCacheJobTrigger" />
+            </list>
+        </property>
+    </bean>
+
+</beans>

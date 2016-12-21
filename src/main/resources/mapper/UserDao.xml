@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yingjun.ssm.dao.UserDao">
+
+    <insert id="createUser" parameterType="UserDto">
+        insert into _user(username, password, salt, role_ids, locked) values(#{username}, #{password}, #{salt}, #{role_ids}, #{locked});
+	</insert>
+
+    <update id="updateUser" parameterType="UserDto">
+        update _user
+        <set>
+            <if test="username!=null">
+                username=#{username},
+            </if>
+            <if test="password!=null">
+                password=#{password},
+            </if>
+            <if test="salt!=null">
+                salt=#{salt},
+            </if>
+            <if test="role_ids!=null">
+                role_ids=#{role_ids},
+            </if>
+            <if test="locked!=null">
+                locked=#{locked},
+            </if>
+        </set>
+        where id = #{id};
+    </update>
+
+    <delete id="deleteUser" parameterType="java.lang.Long">
+        delete from _user where id = #{id};
+	</delete>
+
+    <sql id="Base_Column_List">
+        id, username, password, salt, role_ids as roleIdsStr
+    </sql>
+
+    <select id="findOne" parameterType="java.lang.Long" resultType="User">
+        select
+        <include refid="Base_Column_List"/>
+        from _user where id = #{id};
+    </select>
+
+    <select id="findAll" resultType="User">
+        select
+        <include refid="Base_Column_List"/>
+        from _user;
+    </select>
+
+    <select id="findByUsername" parameterType="java.lang.String" resultType="User">
+        select
+        <include refid="Base_Column_List"/>
+        from _user where username = #{username};
+    </select>
+
+    <select id="findUsers" parameterType="User" resultType="User">
+        select
+        <include refid="Base_Column_List"/>
+        from _user
+        <where>
+            <if test="id!=null and id!=''">
+                and id = #{id}
+            </if>
+            <if test="username!=null and username!=''">
+                and username like '%${username}%'
+            </if>
+        </where>
+    </select>
+</mapper>

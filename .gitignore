@@ -1,0 +1,7 @@
+/.idea/
+/classes/
+/target/
+/catalina.base_IS_UNDEFINED/
+/.settings/
+src/main/.DS_Store
+.DS_Store

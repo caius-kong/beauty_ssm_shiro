@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yingjun.ssm.dao.ResourceDao">
+
+	<insert id="createResource" parameterType="Resource">
+        insert into _resource(name, type, url, parent_id, parent_ids, permission)
+        values(#{name}, #{type}, #{url}, #{parent_id}, #{parent_ids}, #{permission});
+	</insert>
+
+	<update id="updateResource">
+
+	</update>
+
+	<delete id="deleteResource">
+
+	</delete>
+	
+	<select id="findOne" parameterType="java.lang.Long" resultType="Resource">
+        select * from _resource where id = #{id};
+	</select>
+
+	<select id="findAll" resultType="Resource">
+        select * from _resource;
+	</select>
+</mapper>
