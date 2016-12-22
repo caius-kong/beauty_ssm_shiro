@@ -34,17 +34,12 @@ public class UserController {
     @Autowired
     private RoleService roleService;
 
-    /**
-     * @RequiresPermissions("user:view")：调用UserRealm的doGetAuthorizationInfo()获得用户权限，并判断
-     */
-    @RequiresPermissions("user:view")
     @RequestMapping(method = RequestMethod.GET)
     public String list(Model model) {
         model.addAttribute("userList", userService.findAll());
         return "user/list";
     }
 
-    @RequiresPermissions("user:create")
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String showCreateForm(Model model) {
         setCommonData(model);
@@ -60,7 +55,6 @@ public class UserController {
      * @param redirectAttributes
      * @return
      */
-    @RequiresPermissions("user:create")
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String create(@Valid User user, BindingResult result, RedirectAttributes redirectAttributes) {
         userService.createUser(user);
@@ -68,7 +62,6 @@ public class UserController {
         return "redirect:/user";
     }
 
-    @RequiresPermissions("user:update")
     @RequestMapping(value = "/{id}/update", method = RequestMethod.GET)
     public String showUpdateForm(@PathVariable("id") Long id, Model model) {
         setCommonData(model);
@@ -77,7 +70,6 @@ public class UserController {
         return "user/edit";
     }
 
-    @RequiresPermissions("user:update")
     @RequestMapping(value = "/{id}/update", method = RequestMethod.POST)
     public String update(User user, RedirectAttributes redirectAttributes) {
         userService.updateUser(user);
@@ -85,7 +77,6 @@ public class UserController {
         return "redirect:/user";
     }
 
-    @RequiresPermissions("user:delete")
     @RequestMapping(value = "/{id}/delete")
     public String delete(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
         userService.deleteUser(id);
@@ -94,7 +85,6 @@ public class UserController {
     }
 
 
-    @RequiresPermissions("user:update")
     @RequestMapping(value = "/{id}/changePassword", method = RequestMethod.GET)
     public String showChangePasswordForm(@PathVariable("id") Long id, Model model) {
         model.addAttribute("user", userService.findOne(id));
@@ -102,7 +92,6 @@ public class UserController {
         return "user/changePassword";
     }
 
-    @RequiresPermissions("user:update")
     @RequestMapping(value = "/{id}/changePassword", method = RequestMethod.POST)
     public String changePassword(@PathVariable("id") Long id, String newPassword, RedirectAttributes redirectAttributes) {
         userService.changePassword(id, newPassword);

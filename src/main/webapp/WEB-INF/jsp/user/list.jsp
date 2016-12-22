@@ -24,15 +24,9 @@
                 <td>${u.username}</td>
                 <td>${zhangfn:roleNames(u.roleIds)}</td>
                 <td>
-                    <shiro:hasPermission name="user:update">
                         <a href="<%=path %>/user/${u.id}/update">修改</a>
-                    </shiro:hasPermission>
-                    <shiro:hasPermission name="user:delete">
                         <a href="<%=path %>/user/${u.id}/delete">删除</a>
-                    </shiro:hasPermission>
-                    <shiro:hasPermission name="user:update">
                         <a href="<%=path %>/user/${u.id}/changePassword">修改密码</a>
-                    </shiro:hasPermission>
                 </td>
             </tr>
         </c:forEach>
