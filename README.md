@@ -1,6 +1,5 @@
 # 本项目fork于beauty_ssm，在原有基础上进行了完善，主要添加了shiro，aop缓存处理等
 # 优雅的SSM架构(Spring+SpringMVC+Mybatis）
-本项目fork于beauty_ssm，在原有基础上进行了完善，主要添加了shiro，aop缓存处理等
 - Maven
 - Spring（IOC DI AOP 声明式事务处理）
 - SpringMVC（支持Restful风格）
