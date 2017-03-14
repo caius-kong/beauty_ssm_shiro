@@ -14,10 +14,7 @@ import com.yingjun.ssm.entity.User;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.ListUtils;
 import org.apache.commons.collections.MapUtils;
-import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.Validate;
+import org.apache.commons.lang3.*;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.shiro.subject.support.SubjectThreadState;
 import org.joda.time.DateTime;
@@ -147,15 +144,34 @@ public class Test {
 //        System.out.println(new DateTime(2016,12,29,0,0,0).getMillis());
 
 //        ScheduledExecutorPoolFun2();
-        String str="{\n" +
-                "\t\"id\":1,\n" +
-                "\t\"username\":\"kong\",\n" +
-                "\t\"password\":\"123\",\n" +
-                "\t\"salt\":\"123\"\n" +
-                "}";
-        User s = JSONObject.parseObject(str, User.class);
-        System.out.println(s);
+//        String str="{\n" +
+//                "\t\"id\":1,\n" +
+//                "\t\"username\":\"kong\",\n" +
+//                "\t\"password\":\"123\",\n" +
+//                "\t\"salt\":\"123\"\n" +
+//                "}";
+//        User s = JSONObject.parseObject(str, User.class);
+//        System.out.println(s);
 
+        List<String> chainNames = new ArrayList<String>();
+        chainNames.add("/**");
+        chainNames.add("/static/**");
+
+//        Set<String> anonChainNames = new HashSet<>();
+//        anonChainNames.add("/static/**");
+//        anonChainNames.add("/register/**");
+//        anonChainNames.add("/api/**");
+
+        HashSet<String> anonChainNames = Sets.newHashSet("/static/**", "/register/**", "/api/**");
+
+        Set<String> chainNameSet = new HashSet<String>();
+        chainNameSet.addAll(chainNames);
+
+
+        Sets.SetView<String> intersection = Sets.intersection(chainNameSet, anonChainNames);
+        if(intersection!=null && intersection.size()>0){
+            System.out.println(intersection);
+        }
     }
 
     private static void ScheduledExecutorPoolFun1() throws Exception{
