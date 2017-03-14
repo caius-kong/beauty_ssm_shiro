@@ -10,12 +10,6 @@ insert into _role values(1, 'admin', '超级管理员', '11,21,31,41', true);
 
 insert into _resource values(1, '资源', 'menu', '', 0, '0/', '', true);
 
-insert into _resource values(11, '组织机构管理', 'menu', '/organization', 1, '0/1/', 'organization:*', true);
-insert into _resource values(12, '组织机构新增', 'button', '', 11, '0/1/11/', 'organization:create', true);
-insert into _resource values(13, '组织机构修改', 'button', '', 11, '0/1/11/', 'organization:update', true);
-insert into _resource values(14, '组织机构删除', 'button', '', 11, '0/1/11/', 'organization:delete', true);
-insert into _resource values(15, '组织机构查看', 'button', '', 11, '0/1/11/', 'organization:view', true);
-
 insert into _resource values(21, '用户管理', 'menu', '/user', 1, '0/1/', 'user:*', true);
 insert into _resource values(22, '用户新增', 'button', '', 21, '0/1/21/', 'user:create', true);
 insert into _resource values(23, '用户修改', 'button', '', 21, '0/1/21/', 'user:update', true);
@@ -33,4 +27,21 @@ insert into _resource values(42, '角色新增', 'button', '', 41, '0/1/41/', 'r
 insert into _resource values(43, '角色修改', 'button', '', 41, '0/1/41/', 'role:update', true);
 insert into _resource values(44, '角色删除', 'button', '', 41, '0/1/41/', 'role:delete', true);
 insert into _resource values(45, '角色查看', 'button', '', 41, '0/1/41/', 'role:view', true);
+
+insert into _resource values(51, 'URL管理', 'menu', '/urlFilter', 1, '0/1/', 'urlFilter:*', true);
+insert into _resource values(52, 'URL新增', 'button', '', 51, '0/1/51/', 'urlFilter:create', true);
+insert into _resource values(53, 'URL修改', 'button', '', 51, '0/1/51/', 'urlFilter:update', true);
+insert into _resource values(54, 'URL删除', 'button', '', 51, '0/1/51/', 'urlFilter:delete', true);
+insert into _resource values(55, 'URL查看', 'button', '', 51, '0/1/51/', 'urlFilter:view', true);
+
+INSERT INTO `_urlFilter` (`id`, `name`, `url`, `roles`, `permissions`)
+VALUES
+	(1, '用户管理', '/user', '', 'user:view'),
+	(2, '用户新增', '/user/*/create', 'admin', ''),
+	(3, '用户修改', '/user/*/update', 'admin', ''),
+	(4, '用户删除', '/user/*/delete', 'admin', ''),
+	(5, '用户密码修改', '/user/*/changePassword', 'guest', ''),
+	(6, '用户查看', '/user/findUsers', '', 'user:view');
+
+
 

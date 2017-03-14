@@ -21,7 +21,7 @@ public class LoginController {
 
     @RequestMapping(value = "/login")
     public String showLoginForm(HttpServletRequest req, Model model) {
-        System.out.println("--->正常登录不会进入，这个是.get('/login', ..)");
+        System.out.println("--->跳转登录界面...");
         String exceptionClassName = (String) req.getAttribute("shiroLoginFailure");
         String error = null;
         if (UnknownAccountException.class.getName().equals(exceptionClassName)) {

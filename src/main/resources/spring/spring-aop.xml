@@ -16,11 +16,4 @@
     <!--启动对@AspectJ注解的支持 , proxy-target-class设置为true，强制使用cglib代理，如果不设置，将默认使用jdk的代理，但是jdk的代理是基于接口的 -->
     <aop:aspectj-autoproxy proxy-target-class="true"/>
 
-    <!--shiro mvc注解部分-->
-    <!-- 定义aop切面，用于代理如@RequiresPermissions注解的控制器，进行权限控制 -->
-    <aop:config proxy-target-class="true"/>
-    <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
-        <property name="securityManager" ref="securityManager"/>
-    </bean>
-
 </beans>

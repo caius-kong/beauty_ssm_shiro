@@ -110,27 +110,55 @@
         <property name="kickoutUrl" value="/login?kickout=1"/>
     </bean>
 
-    <!-- Shiro的Web过滤器 -->
-    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
-        <property name="securityManager" ref="securityManager"/>
+    <!-- Shiro的Web过滤器 （使用动态URL权限控制） -->
+    <!-- URL动态权限控制
+         核心：spring启动时，filterChainManager就能拿到所有的拦截器（默认+数据库自定义），执行url时过滤所有拦截器
+         例如执行url: /user/1/create
+          1. 默认拦截器过滤(kickout...)
+          2. urlFilter过滤：url与urlFilter.url匹配，匹配到(/user/*/create)，再进一步匹配登录用户的roles和permissions是否满足urlFilter.roles、urlFilter.permissions
+    -->
+    <!-- 为什么需要自定义DefaultFilterChainManager？
+         因为默认实现对于多个FilterChain匹配有点问题，它只返回第一个匹配到的FilterChain
+     -->
+    <bean id="filterChainManager" class="com.yingjun.ssm.shiro.filter.CustomDefaultFilterChainManager">
         <property name="loginUrl" value="/login"/>
-        <property name="filters">
+        <property name="successUrl" value="/"/>
+        <property name="unauthorizedUrl" value="/unauthorized"/> <!-- 没有授权时跳转的错误页面 -->
+        <property name="customFilters">
             <util:map>
                 <entry key="authc" value-ref="formAuthenticationFilter"/>
                 <entry key="kickout" value-ref="kickoutSessionControlFilter"/>
             </util:map>
         </property>
-        <property name="filterChainDefinitions">
+        <property name="defaultFilterChainDefinitions">
             <value>
-                /static/** = anon           <!-- 静态资源不拦截 -->
-                /welcome = anon             <!-- 匿名拦截器，定义不拦截的url -->
                 /login = authc              <!-- 直接访问/login，如果之前是'记住我'登录的不算，需要重新登录 -->
-                /register = anon
                 /logout = logout            <!-- 注销拦截器 -->
-                /authenticated = authc
-                /** = kickout,user          <!-- 所有请求必须通过user拦截器，否则跳转loginUrl（即使用'subject.login'或者'记住我'登录的用户通过） -->
+                /register/** = anon
+                /static/** = anon           <!-- 静态资源不拦截 -->
+                /api/** = anon              <!-- 对第三方提供数据的api，不需要登录验证 -->
+                /admin/** = roles[admin]    <!-- 管理员api -->
+                /welcome = anon
+                /unauthorized = authc
+                /** = kickout, user          <!-- 所有请求必须通过user拦截器，否则跳转loginUrl（即使用'subject.login'或者'记住我'登录的用户通过） -->
             </value>
         </property>
+
+    </bean>
+
+    <bean id="filterChainResolver"
+          class="com.yingjun.ssm.shiro.filter.CustomPathMatchingFilterChainResolver">
+        <property name="customDefaultFilterChainManager" ref="filterChainManager"/>
+    </bean>
+
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <property name="securityManager" ref="securityManager"/>
+    </bean>
+
+    <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="targetObject" ref="shiroFilter"/>
+        <property name="targetMethod" value="setFilterChainResolver"/>
+        <property name="arguments" ref="filterChainResolver"/>
     </bean>
 
     <!-- step3: 其他配置-->

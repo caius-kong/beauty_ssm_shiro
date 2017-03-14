@@ -42,4 +42,14 @@ create table _resource (
 ) charset=utf8 ENGINE=InnoDB;
 create index idx_resource_parent_id on _resource(parent_id);
 create index idx_resource_parent_ids on _resource(parent_ids);
+
+create table _urlFilter (
+  id bigint auto_increment,
+  name varchar(100),
+  url varchar(100),
+  roles varchar(100),
+  permissions varchar(100),
+  constraint pk_urlFilter primary key(id)
+) charset=utf8 ENGINE=InnoDB;
+create unique index idx_urlFilter_url on _urlFilter(url);
 	

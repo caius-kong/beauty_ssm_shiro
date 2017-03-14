@@ -22,6 +22,10 @@ public class ServiceTest {
     private UserService userService;
     @Autowired
     private PasswordHelper passwordHelper;
+    @Autowired
+    private UrlFilterService urlFilterService;
+    @Autowired
+    private ShiroFilerChainManager shiroFilerChainManager;
 
     /**
      * 如果事务生效，那么此次操作应该是一条语句都没有插入

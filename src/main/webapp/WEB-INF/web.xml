@@ -77,6 +77,8 @@
     </filter-mapping>
 
     <!--配置DispatcherServlet（WebMVC上下文，子容器） -->
+    <!-- 注1：不要拦截/*,它会在转到jsp时再次拦截，导致404 -->
+    <!-- 注2：拦截/，而不是*.do，实现restful风格，但是需要注意静态资源过滤 -->
     <servlet>
         <servlet-name>spring-mvc</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
@@ -104,6 +106,7 @@
         <url-pattern>/druid/*</url-pattern>
     </servlet-mapping>
 
+    <!-- WebStatFilter用于采集web-jdbc关联监控的数据 -->
     <filter>
         <filter-name>DruidWebStatFilter</filter-name>
         <filter-class>com.alibaba.druid.support.http.WebStatFilter</filter-class>
@@ -118,11 +121,9 @@
     </filter-mapping>
 
     <!-- Session超时30分钟(零或负数表示会话永不超时) -->
-    <!--
     <session-config>
         <session-timeout>30</session-timeout>
     </session-config>
-     -->
 
     <!--<error-page>-->
     <!--<error-code>405</error-code>-->

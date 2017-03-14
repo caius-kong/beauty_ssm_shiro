@@ -14,17 +14,16 @@ import com.yingjun.ssm.entity.User;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.ListUtils;
 import org.apache.commons.collections.MapUtils;
-import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.Validate;
+import org.apache.commons.lang3.*;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.apache.shiro.subject.support.SubjectThreadState;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 import org.joda.time.LocalDate;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.*;
 
 /**
  * Created by kongyunhui on 16/10/20.
@@ -133,14 +132,117 @@ public class Test {
 //        Object o = new User("kong", "123", "123");
 //        System.out.println(o.toString());
 
-        LinkedList stack = new LinkedList();
-        stack.push("2");
-        stack.push("1");
-        stack.push("2");
-        System.out.println(stack);
+//        LinkedList stack = new LinkedList();
+//        stack.push("2");
+//        stack.push("1");
+//        stack.push("2");
+//        System.out.println(stack);
 
+//        futureTaskFun();
+//        threadFun();
+
+//        System.out.println(new DateTime(2016,12,29,0,0,0).getMillis());
+
+//        ScheduledExecutorPoolFun2();
+//        String str="{\n" +
+//                "\t\"id\":1,\n" +
+//                "\t\"username\":\"kong\",\n" +
+//                "\t\"password\":\"123\",\n" +
+//                "\t\"salt\":\"123\"\n" +
+//                "}";
+//        User s = JSONObject.parseObject(str, User.class);
+//        System.out.println(s);
+
+        List<String> chainNames = new ArrayList<String>();
+        chainNames.add("/**");
+        chainNames.add("/static/**");
+
+//        Set<String> anonChainNames = new HashSet<>();
+//        anonChainNames.add("/static/**");
+//        anonChainNames.add("/register/**");
+//        anonChainNames.add("/api/**");
+
+        HashSet<String> anonChainNames = Sets.newHashSet("/static/**", "/register/**", "/api/**");
+
+        Set<String> chainNameSet = new HashSet<String>();
+        chainNameSet.addAll(chainNames);
+
+
+        Sets.SetView<String> intersection = Sets.intersection(chainNameSet, anonChainNames);
+        if(intersection!=null && intersection.size()>0){
+            System.out.println(intersection);
+        }
     }
 
+    private static void ScheduledExecutorPoolFun1() throws Exception{
+        ScheduledExecutorService mExecutorService = Executors.newScheduledThreadPool(3);
+        FutureTask<String> stringFutureTask = new FutureTask<>(new Callable<String>() {
+            @Override
+            public String call() throws Exception {
+                try {
+                    Thread.sleep(2000);
+                } catch (Exception e) {
+                }
+                return Thread.currentThread().getName();
+            }
+        });
+        mExecutorService.scheduleAtFixedRate(stringFutureTask, 1, 2, TimeUnit.SECONDS);
+        System.out.println(stringFutureTask.get());
+        // ExecutorService停止接收任务，但是已经提交的任务继续执行，执行完后ExecutorService正式从关闭状态->终止状态
+        // 从结果来看，仅仅打印一次threadName，符合预期！
+        mExecutorService.shutdown();
+    }
+
+    private static void ScheduledExecutorPoolFun2(){
+        /**
+         * ScheduledExecutorService extends ExecutorService
+         * 专门定义了关于ScheduleExecutorPool的api
+         */
+        ScheduledExecutorService mExecutorService = Executors.newScheduledThreadPool(3);
+        mExecutorService.scheduleAtFixedRate(new Runnable() {
+            @Override
+            public void run() {
+                System.out.println(Thread.currentThread().getName());
+                try{
+                    Thread.sleep(2000);
+                }catch(Exception e){}
+            }
+        }, 1, 5, TimeUnit.SECONDS);
+//        mExecutorService.shutdown(); // 定期执行。在提交之前，shutdown就执行了，因此没有线程执行。
+    }
+
+    private static void futureTaskFun() throws Exception{
+        FutureTask futureTask = new FutureTask(new Callable() {
+            @Override
+            public Object call() throws Exception {
+                Thread.sleep(3000);
+                System.out.println("futureTask finish");
+                return 10;
+            }
+        });
+        ExecutorService mExecutor = Executors.newSingleThreadExecutor();
+        mExecutor.submit(futureTask);
+        System.out.println(futureTask.get());
+        System.out.println("i am a futureTask test!");
+        mExecutor.shutdown();
+    }
+
+    private static void threadFun(){
+        try {
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Thread.sleep(3000);
+                    }catch(Exception e){}
+                    System.out.println("thread finish");
+                }
+            });
+            thread.start();
+//            thread.join(); // 使用FutureTask，也就是Future，他的get就可以阻塞线程了
+            System.out.println("i am a thread test!");
+        } catch(Exception e){};
+    }
 
     /**
      *

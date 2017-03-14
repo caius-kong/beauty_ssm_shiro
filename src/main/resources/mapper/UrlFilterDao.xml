@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yingjun.ssm.dao.UrlFilterDao">
+
+	<sql id="Base_Column_List">
+		id, name, url, roles, permissions
+	</sql>
+
+    <!-- useGeneratedKeys="true" keyProperty="id" 使其返回自增主键 -->
+	<insert id="createUrlFilter" useGeneratedKeys="true" keyProperty="id" parameterType="UrlFilter">
+        insert into _urlFilter
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name!=null">
+                name,
+            </if>
+            <if test="url!=null">
+                url,
+            </if>
+            <if test="roles!=null">
+                roles,
+            </if>
+            <if test="permissions!=null">
+                permissions,
+            </if>
+        </trim>
+        <trim prefix="values(" suffix=")" suffixOverrides=",">
+            <if test="name!=null">
+                #{name},
+            </if>
+            <if test="url!=null">
+                #{url},
+            </if>
+            <if test="roles!=null">
+                #{roles},
+            </if>
+            <if test="permissions!=null">
+                #{permissions},
+            </if>
+        </trim>
+	</insert>
+
+	<update id="updateUrlFilter">
+
+	</update>
+
+	<delete id="deleteUrlFilter">
+
+	</delete>
+
+	<select id="findOne" parameterType="java.lang.Long" resultType="UrlFilter">
+        select <include refid="Base_Column_List"/> from _urlFilter where id = #{id}
+	</select>
+
+	<select id="findAll" resultType="UrlFilter">
+        select <include refid="Base_Column_List"/> from _urlFilter;
+	</select>
+</mapper>
