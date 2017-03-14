@@ -29,10 +29,4 @@ public class AopTest {
 		List<User> all = userService.findAll();
 		System.out.println(all);
 	}
-
-	@Test
-    public void testControllerAop(){
-        indexController.welcome();
-    }
-
 }

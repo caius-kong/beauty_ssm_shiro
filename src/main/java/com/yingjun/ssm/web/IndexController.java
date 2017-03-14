@@ -29,6 +29,7 @@ public class IndexController {
 
     @RequestMapping("/")
     public String index(Model model) {
+        System.out.println("-index-->");
         String username = (String)SecurityUtils.getSubject().getPrincipal();
         List<String> permissions = userService.findPermissions(username); // username -> user.roleIds -> role.resourceIds -> resource.permission
         List<Resource> menus = resourceService.findMenus(permissions); // resource.permission -> resource.name (type=menu and parentId!=0)
@@ -37,7 +38,7 @@ public class IndexController {
     }
 
     @RequestMapping("/welcome")
-    public String welcome() {
+    public String showWelcomePage(){
         return "welcome";
     }
 

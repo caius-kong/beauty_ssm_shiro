@@ -22,21 +22,27 @@ public class UserRealm extends AuthorizingRealm {
     @Autowired
     private UserService userService;
 
+    /**
+     * 授权查询回调函数，进行鉴权但缓存中无用户的授权信息时调用。在配有缓存的情况下，只加载一次
+     */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         String username = (String)principals.getPrimaryPrincipal();
 
-        SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
-        authorizationInfo.setRoles(new HashSet<String>(userService.findRoles(username)));
-        authorizationInfo.setStringPermissions(new HashSet<String>(userService.findPermissions(username)));
-        return authorizationInfo;
+        SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
+        info.setRoles(new HashSet<String>(userService.findRoles(username)));
+        info.setStringPermissions(new HashSet<String>(userService.findPermissions(username)));
+        return info;
     }
 
+    /**
+     * 认证回调函数,登录时调用.
+     */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
-        String username = (String)token.getPrincipal();
-//        UsernamePasswordToken usernamePasswordToken = (UsernamePasswordToken)token;
-//        String username = usernamePasswordToken.getUsername();
+//        String username = (String)token.getPrincipal();
+        UsernamePasswordToken usernamePasswordToken = (UsernamePasswordToken)token;
+        String username = usernamePasswordToken.getUsername();
         User user = userService.findByUsername(username);
         if(user == null) {
             throw new UnknownAccountException();//没找到帐号

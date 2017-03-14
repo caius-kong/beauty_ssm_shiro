@@ -35,7 +35,7 @@ public class CustomDefaultFilterChainManager extends DefaultFilterChainManager {
     public CustomDefaultFilterChainManager() {
         setFilters(new LinkedHashMap<String, Filter>());
         setFilterChains(new LinkedHashMap<String, NamedFilterList>());
-        addDefaultFilters(false);
+        addDefaultFilters(false); // 调用其构造器时，会自动注册默认的拦截器 (false, 因为我在ShiroFilterChainManager.init中进行获取)
     }
 
     public Map<String, String> getFilterChainDefinitionMap() {

@@ -11,6 +11,7 @@ import javax.servlet.Filter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * <p>User: Zhang Kaitao
@@ -49,6 +50,17 @@ public class ShiroFilerChainManager {
             if (!StringUtils.isEmpty(urlFilter.getPermissions())) {
                 filterChainManager.addToChain(url, "perms", urlFilter.getPermissions());
             }
+        }
+        System.out.println("-拦截器链-->");
+        Map<String, NamedFilterList> filterChains = filterChainManager.getFilterChains();
+        Set<String> set = filterChains.keySet();
+        for(String key : set){
+            StringBuffer sb = new StringBuffer();
+            sb.append(key).append("=");
+            for(Filter filter : filterChains.get(key)){
+                sb.append(filter.toString()).append(",");
+            }
+            System.out.println(sb);
         }
     }
 }

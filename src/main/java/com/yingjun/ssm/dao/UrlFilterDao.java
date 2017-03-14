@@ -10,10 +10,10 @@ import java.util.List;
  */
 public interface UrlFilterDao {
 
-    public int createUrlFilter(UrlFilter urlFilter);
-    public UrlFilter updateUrlFilter(UrlFilter urlFilter);
-    public void deleteUrlFilter(Long urlFilterId);
+    int createUrlFilter(UrlFilter urlFilter);
+    UrlFilter updateUrlFilter(UrlFilter urlFilter);
+    void deleteUrlFilter(Long urlFilterId);
 
-    public UrlFilter findOne(Long urlFilterId);
-    public List<UrlFilter> findAll();
+    UrlFilter findOne(Long urlFilterId);
+    List<UrlFilter> findAll();
 }

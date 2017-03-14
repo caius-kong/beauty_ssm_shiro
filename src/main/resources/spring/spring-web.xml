@@ -20,15 +20,15 @@
     -->
     <mvc:annotation-driven/>
 
-    <!--静态资源默认servlet配置
-    	1、加入对静态资源的处理:js,css,gif,png
-    	2、允许使用"/"做整体映射
-    -->
-    <!-- 当在web.xml 中   DispatcherServlet使用 <url-pattern>/</url-pattern> 映射时，能映射静态资源 -->
-    <mvc:default-servlet-handler/>
+    <!-- 对于静态资源，使用Web应用服务器默认的default servlet处理-->
+    <!-- 将静态资源的处理经由Spring MVC框架交回Web应用服务器处理 -->
+    <!-- 资源文件必须在WEB-INF下 -->
+    <!--<mvc:default-servlet-handler/>-->
 
-    <!-- 静态资源映射 -->
-    <mvc:resources mapping="/static/**" location="/WEB-INF/static/"/>
+    <!-- 静态资源映射 spring3.0.4+ -->
+    <!-- 由Spring MVC框架自己处理静态资源，并添加一些有用的附加值功能，例如cache-period进行浏览器缓存 （每次检查请求头Last-Modified，当资源文件未发生变换，直接返回缓存文件） -->
+    <!-- 任意指定资源文件路径，甚至打包的jar -->
+    <mvc:resources mapping="/static/**" location="/WEB-INF/static/" />
 
     <!--配置JSP　显示ViewResolver-->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">

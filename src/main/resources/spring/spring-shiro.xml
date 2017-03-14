@@ -117,11 +117,13 @@
           1. 默认拦截器过滤(kickout...)
           2. urlFilter过滤：url与urlFilter.url匹配，匹配到(/user/*/create)，再进一步匹配登录用户的roles和permissions是否满足urlFilter.roles、urlFilter.permissions
     -->
-    <bean id="filterChainManager"
-          class="com.yingjun.ssm.shiro.filter.CustomDefaultFilterChainManager">
+    <!-- 为什么需要自定义DefaultFilterChainManager？
+         因为默认实现对于多个FilterChain匹配有点问题，它只返回第一个匹配到的FilterChain
+     -->
+    <bean id="filterChainManager" class="com.yingjun.ssm.shiro.filter.CustomDefaultFilterChainManager">
         <property name="loginUrl" value="/login"/>
         <property name="successUrl" value="/"/>
-        <property name="unauthorizedUrl" value="/unauthorized"/>
+        <property name="unauthorizedUrl" value="/unauthorized"/> <!-- 没有授权时跳转的错误页面 -->
         <property name="customFilters">
             <util:map>
                 <entry key="authc" value-ref="formAuthenticationFilter"/>
@@ -130,15 +132,18 @@
         </property>
         <property name="defaultFilterChainDefinitions">
             <value>
-                /static/** = anon           <!-- 静态资源不拦截 -->
-                /welcome = anon             <!-- 匿名拦截器，定义不拦截的url -->
                 /login = authc              <!-- 直接访问/login，如果之前是'记住我'登录的不算，需要重新登录 -->
-                /register = anon
                 /logout = logout            <!-- 注销拦截器 -->
+                /register/** = anon
+                /static/** = anon           <!-- 静态资源不拦截 -->
+                /api/** = anon              <!-- 对第三方提供数据的api，不需要登录验证 -->
+                /admin/** = roles[admin]    <!-- 管理员api -->
+                /welcome = anon
                 /unauthorized = authc
-                /** = kickout,user          <!-- 所有请求必须通过user拦截器，否则跳转loginUrl（即使用'subject.login'或者'记住我'登录的用户通过） -->
+                /** = kickout, user          <!-- 所有请求必须通过user拦截器，否则跳转loginUrl（即使用'subject.login'或者'记住我'登录的用户通过） -->
             </value>
         </property>
+
     </bean>
 
     <bean id="filterChainResolver"
