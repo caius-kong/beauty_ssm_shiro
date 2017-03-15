@@ -22,6 +22,8 @@ import java.util.LinkedList;
  * <p>User: Zhang Kaitao
  * <p>Date: 14-2-18
  * <p>Version: 1.0
+ *
+ * AccessControlFilter提供了访问控制的基础功能；比如是否允许访问/当访问拒绝时如何处理等
  */
 public class KickoutSessionControlFilter extends AccessControlFilter {
 

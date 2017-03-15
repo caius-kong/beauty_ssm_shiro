@@ -5,6 +5,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.web.filter.mgt.FilterChainManager;
 import org.apache.shiro.web.filter.mgt.PathMatchingFilterChainResolver;
+import org.springframework.beans.factory.annotation.Value;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -23,6 +24,8 @@ import java.util.Set;
 public class CustomPathMatchingFilterChainResolver extends PathMatchingFilterChainResolver {
 
     private CustomDefaultFilterChainManager customDefaultFilterChainManager;
+    @Value("${customFilter.anonChainNams}")
+    private String customAnonChainNams;
 
     public void setCustomDefaultFilterChainManager(CustomDefaultFilterChainManager customDefaultFilterChainManager) {
         this.customDefaultFilterChainManager = customDefaultFilterChainManager;
@@ -50,8 +53,10 @@ public class CustomPathMatchingFilterChainResolver extends PathMatchingFilterCha
             return null;
         }
         System.out.println("-匹配到的chainNames-->" + chainNames);
-        // 如果匹配到的拦截器链包含anon的，例如/static/**
-        HashSet<String> anonChainNames = Sets.newHashSet("/static/**", "/register/**", "/api/**");
+
+        // 二次过滤拦截器链。如果匹配到的拦截器链包含anon的，例如/static/**，因此可以忽略/**这种URL模式
+//        HashSet<String> anonChainNames = Sets.newHashSet("/static/**", "/register/**", "/api/**");
+        Set<String> anonChainNames = Sets.newHashSet(customAnonChainNams.split(","));
         Set<String> chainNameSet = new HashSet<String>();
         chainNameSet.addAll(chainNames);
         Sets.SetView<String> intersection = Sets.intersection(chainNameSet, anonChainNames);

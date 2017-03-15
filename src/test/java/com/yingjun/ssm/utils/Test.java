@@ -162,16 +162,18 @@ public class Test {
 //        anonChainNames.add("/register/**");
 //        anonChainNames.add("/api/**");
 
-        HashSet<String> anonChainNames = Sets.newHashSet("/static/**", "/register/**", "/api/**");
+//        HashSet<String> anonChainNames = Sets.newHashSet("/static/**", "/register/**", "/api/**");
+//        Set<String> chainNameSet = new HashSet<String>();
+//        chainNameSet.addAll(chainNames);
+//        Sets.SetView<String> intersection = Sets.intersection(chainNameSet, anonChainNames);
+//        if(intersection!=null && intersection.size()>0){
+//            System.out.println(intersection);
+//        }
 
-        Set<String> chainNameSet = new HashSet<String>();
-        chainNameSet.addAll(chainNames);
-
-
-        Sets.SetView<String> intersection = Sets.intersection(chainNameSet, anonChainNames);
-        if(intersection!=null && intersection.size()>0){
-            System.out.println(intersection);
-        }
+        String customAnonChainNams = "/static/**, /register/**, /api/**";
+        String[] split = customAnonChainNams.split(",");
+        Set<String> anonChainNames = Sets.newHashSet(split);
+        System.out.println(anonChainNames);
     }
 
     private static void ScheduledExecutorPoolFun1() throws Exception{

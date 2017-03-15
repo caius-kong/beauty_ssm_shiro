@@ -10,7 +10,7 @@
 >
     <!--配置整合mybatis过程-->
 
-    <!--1、配置数据库相关参数-->
+    <!--1、引入资源参数-->
     <context:property-placeholder location="classpath:resource.properties" ignore-unresolvable="true"/>
 
     <!--2.数据源druid -->
