@@ -39,8 +39,6 @@ public class UserServiceImpl implements UserService {
     private PasswordHelper passwordHelper;
     @Autowired
     private RoleService roleService;
-    @Autowired
-    private RedisCache cache;
 
     /**
      * 创建用户

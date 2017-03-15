@@ -21,7 +21,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * 采用AOP的方式处理: XXService关于数据更新（增删改）时，缓存的清理。
+ * 采用AOP的方式处理: XXDao关于数据更新（增删改）时，缓存的清理。
  */
 @Component
 @Aspect

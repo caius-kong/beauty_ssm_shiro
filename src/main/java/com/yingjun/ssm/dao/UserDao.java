@@ -1,6 +1,5 @@
 package com.yingjun.ssm.dao;
 
-
 import com.yingjun.ssm.aop.DataSource;
 import com.yingjun.ssm.dto.UserDto;
 import com.yingjun.ssm.entity.User;
@@ -19,15 +18,15 @@ public interface UserDao {
     @DataSource("master")
     void deleteUser(Long userId);
 
-    @DataSource("slave1")
+    @DataSource("slave")
     User findOne(Long userId);
 
-    @DataSource("slave1")
+    @DataSource("slave")
     List<User> findAll();
 
-    @DataSource("slave2")
+    @DataSource("slave")
     User findByUsername(String username);
 
-    @DataSource("slave2")
+    @DataSource("slave")
     List<User> findUsers(User user);
 }

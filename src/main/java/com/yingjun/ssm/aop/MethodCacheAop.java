@@ -36,6 +36,7 @@ public class MethodCacheAop {
 
     /**
      * 搭配 AspectJ 指示器“@annotation()”可以使本切面成为某个注解的代理实现
+     * 注：仅支持在实现方法上注解，不支持在接口方法上注解。
      */
     @Around("@annotation(com.yingjun.ssm.aop.MethodCache)")
     public Object around(ProceedingJoinPoint joinPoint) throws Throwable {

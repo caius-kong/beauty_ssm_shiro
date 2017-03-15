@@ -15,7 +15,7 @@
 
     <!--2.数据源druid -->
     <!-- master数据源 -->
-	<bean id="masterdataSource" class="com.alibaba.druid.pool.DruidDataSource"
+	<bean id="masterDataSource" class="com.alibaba.druid.pool.DruidDataSource"
 			init-method="init" destroy-method="close">
 		<property name="driverClassName" value="${jdbc.driverClassName}" />
 		<property name="url" value="${jdbc.url}" />
@@ -32,27 +32,10 @@
 	</bean>
 
     <!-- slave 1 数据源 -->
-    <bean id="slave1dataSource" class="com.alibaba.druid.pool.DruidDataSource"
+    <bean id="slaveDataSource" class="com.alibaba.druid.pool.DruidDataSource"
           init-method="init" destroy-method="close">
         <property name="driverClassName" value="${jdbc.driverClassName}" />
         <property name="url" value="${jdbc.url1}" />
-        <property name="username" value="${jdbc.username}" />
-        <property name="password" value="${jdbc.password}" />
-
-        <!-- 配置初始化大小、最小、最大 -->
-        <property name="initialSize" value="${druid.pool.size.init}" />
-        <property name="minIdle" value="${druid.pool.size.min}" />
-        <property name="maxActive" value="${druid.pool.size.max}" />
-
-        <!-- 配置监控统计拦截的filters，wall用于防止sql注入，stat用于统计分析 -->
-        <property name="filters" value="wall,stat" />
-    </bean>
-
-    <!-- slave 2 数据源 -->
-    <bean id="slave2dataSource" class="com.alibaba.druid.pool.DruidDataSource"
-          init-method="init" destroy-method="close">
-        <property name="driverClassName" value="${jdbc.driverClassName}" />
-        <property name="url" value="${jdbc.url2}" />
         <property name="username" value="${jdbc.username}" />
         <property name="password" value="${jdbc.password}" />
 
@@ -69,14 +52,12 @@
         <property name="targetDataSources">
             <map key-type="java.lang.String">
                 <!-- write -->
-                <entry key="master" value-ref="masterdataSource"/>
+                <entry key="master" value-ref="masterDataSource"/>
                 <!-- read -->
-                <entry key="slave1" value-ref="slave1dataSource"/>
-                <!-- read -->
-                <entry key="slave2" value-ref="slave2dataSource"/>
+                <entry key="slave" value-ref="slaveDataSource"/>
             </map>
         </property>
-        <property name="defaultTargetDataSource" ref="masterdataSource"/>
+        <property name="defaultTargetDataSource" ref="masterDataSource"/>
     </bean>
     
     <!--3、配置SqlSessionFactory对象-->

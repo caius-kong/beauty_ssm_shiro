@@ -23,15 +23,19 @@ import java.lang.reflect.Method;
 @Aspect
 @Component
 public class DataSourceAop {
-    private static final Logger LOG = LoggerFactory.getLogger(MethodCacheAop.class);
+    private static final Logger LOG = LoggerFactory.getLogger(DataSourceAop.class);
 
-    // 这里你可以使用execution遍历切入点，也可以使用@annotation定义所有拥有DataSource注解的方法为切入点
-    @Before("@annotation(com.yingjun.ssm.aop.DataSource)")
+    // @anontation不支持拦截接口方法，因此此处必须使用execution
+    @Before("execution(* com.yingjun.ssm.dao..*.*(..))")
     public void before(JoinPoint point){
+        System.out.println("--->DataSourceAop start...");
+        // 遍历所有dao层，因此存在没有@DataSource的方法，需要空指针处理
         DataSource annotation = getAnnotation(point, DataSource.class);
-        String db_key = annotation.value();
-        DynamicDataSourceHolder.putDataSource(db_key);
-        LOG.info(Helper.getFullMethod(point) + "set db as [{}]", db_key);
+        if(annotation != null) {
+            String db_key = annotation.value();
+            DynamicDataSourceHolder.putDataSource(db_key);
+            LOG.info(Helper.getFullMethod(point) + " set db as [{}]", db_key);
+        }
     }
 
     /**
@@ -42,6 +46,9 @@ public class DataSourceAop {
     private <T extends Annotation> T getAnnotation(JoinPoint jp, Class<T> clz) {
         MethodSignature sign = (MethodSignature) jp.getSignature();
         Method method = sign.getMethod();
-        return method.getAnnotation(clz);
+        if(method!=null && method.isAnnotationPresent(DataSource.class)){
+            return method.getAnnotation(clz);
+        }
+        return null;
     }
 }
