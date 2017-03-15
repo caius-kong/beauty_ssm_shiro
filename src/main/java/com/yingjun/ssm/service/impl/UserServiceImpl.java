@@ -24,11 +24,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * <p>User: Zhang Kaitao
- * <p>Date: 14-1-28
- * <p>Version: 1.0
- */
 @Service("userService")
 public class UserServiceImpl implements UserService {
     private final Logger LOG = LoggerFactory.getLogger(this.getClass());

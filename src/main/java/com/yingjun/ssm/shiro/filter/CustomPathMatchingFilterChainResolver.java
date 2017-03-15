@@ -17,9 +17,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * <p>User: Zhang Kaitao
- * <p>Date: 14-2-25
- * <p>Version: 1.0
+ * 自定义PathMatchingFilterChainResolver，完成拦截器链解析
  */
 public class CustomPathMatchingFilterChainResolver extends PathMatchingFilterChainResolver {
 

@@ -13,9 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.HashSet;
 
 /**
- * <p>User: Zhang Kaitao
- * <p>Date: 14-1-28
- * <p>Version: 1.0
+ * shiro管理的对象，完成身份认证、授权查询
  */
 public class UserRealm extends AuthorizingRealm {
 

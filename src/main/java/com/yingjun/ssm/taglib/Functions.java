@@ -11,9 +11,6 @@ import org.springframework.util.CollectionUtils;
 import java.util.Collection;
 
 /**
- * <p>User: Zhang Kaitao
- * <p>Date: 14-2-15
- * <p>Version: 1.0
  *
  * 由于方法必须是static(1)，而通过Spring托管的对象不是static(2)，因此通过SpringUtils来获取bean
  * (1). tld文件引用static方法

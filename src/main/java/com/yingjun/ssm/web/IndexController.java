@@ -13,11 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
-/**
- * <p>User: Zhang Kaitao
- * <p>Date: 14-2-14
- * <p>Version: 1.0
- */
 @Controller
 public class IndexController {
     private final Logger LOG = LoggerFactory.getLogger(this.getClass());

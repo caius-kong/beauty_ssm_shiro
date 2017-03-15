@@ -2,11 +2,6 @@ package com.yingjun.ssm.entity;
 
 import java.io.Serializable;
 
-/**
- * <p>User: Zhang Kaitao
- * <p>Date: 14-1-28
- * <p>Version: 1.0
- */
 public class Resource implements Serializable {
     private Long id; //编号
     private String name; //资源名称

@@ -9,11 +9,6 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import java.util.List;
 
-/**
- * <p>User: Zhang Kaitao
- * <p>Date: 14-2-25
- * <p>Version: 1.0
- */
 @Service
 public class UrlFilterServiceImpl implements UrlFilterService {
 

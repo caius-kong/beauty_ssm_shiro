@@ -13,11 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 
-/**
- * <p>User: Zhang Kaitao
- * <p>Date: 14-1-28
- * <p>Version: 1.0
- */
 @Service
 public class RoleServiceImpl implements RoleService {
     private final Logger LOG = LoggerFactory.getLogger(this.getClass());

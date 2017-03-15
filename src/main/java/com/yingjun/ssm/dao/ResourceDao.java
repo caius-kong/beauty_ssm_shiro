@@ -4,11 +4,6 @@ import com.yingjun.ssm.entity.Resource;
 
 import java.util.List;
 
-/**
- * <p>Resource: Zhang Kaitao
- * <p>Date: 14-1-28
- * <p>Version: 1.0
- */
 public interface ResourceDao {
 
     Resource createResource(Resource resource);
