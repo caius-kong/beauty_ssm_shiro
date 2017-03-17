@@ -153,9 +153,9 @@ public class Test {
 //        User s = JSONObject.parseObject(str, User.class);
 //        System.out.println(s);
 
-        List<String> chainNames = new ArrayList<String>();
-        chainNames.add("/**");
-        chainNames.add("/static/**");
+//        List<String> chainNames = new ArrayList<String>();
+//        chainNames.add("/**");
+//        chainNames.add("/static/**");
 
 //        Set<String> anonChainNames = new HashSet<>();
 //        anonChainNames.add("/static/**");
@@ -170,10 +170,21 @@ public class Test {
 //            System.out.println(intersection);
 //        }
 
-        String customAnonChainNams = "/static/**, /register/**, /api/**";
-        String[] split = customAnonChainNams.split(",");
-        Set<String> anonChainNames = Sets.newHashSet(split);
-        System.out.println(anonChainNames);
+//        String customAnonChainNams = "/static/**, /register/**, /api/**";
+//        String[] split = customAnonChainNams.split(",");
+//        Set<String> anonChainNames = Sets.newHashSet(split);
+//        System.out.println(anonChainNames);
+
+//        System.out.println(RandomUtils.nextInt(1,3));
+//        String threadLocalDs = "master1";
+//        boolean master = threadLocalDs.contains("master");
+//        System.out.println(master);
+
+        ArrayList<String> readDataSourceKeyList = Lists.newArrayList("slave1", "slave1", "slave1", "slave1", "slave1", "slave2");
+        for(int i=0; i<30; i++) {
+            String ds_key = readDataSourceKeyList.get(RandomUtils.nextInt(0, readDataSourceKeyList.size()));
+            System.out.println(ds_key);
+        }
     }
 
     private static void ScheduledExecutorPoolFun1() throws Exception{

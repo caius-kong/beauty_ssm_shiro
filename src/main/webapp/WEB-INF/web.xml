@@ -96,17 +96,8 @@
         <url-pattern>/</url-pattern>
     </servlet-mapping>
 
-    <!-- druid -->
-    <servlet>
-        <servlet-name>DruidStatView</servlet-name>
-        <servlet-class>com.alibaba.druid.support.http.StatViewServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>DruidStatView</servlet-name>
-        <url-pattern>/druid/*</url-pattern>
-    </servlet-mapping>
-
-    <!-- WebStatFilter用于采集web-jdbc关联监控的数据 -->
+    <!-- 连接池 启用 Web 监控统计功能 -->
+    <!-- 访问监控页面： http://ip:port/projectName/druid/index.html -->
     <filter>
         <filter-name>DruidWebStatFilter</filter-name>
         <filter-class>com.alibaba.druid.support.http.WebStatFilter</filter-class>
@@ -119,6 +110,14 @@
         <filter-name>DruidWebStatFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
+    <servlet>
+        <servlet-name>DruidStatView</servlet-name>
+        <servlet-class>com.alibaba.druid.support.http.StatViewServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DruidStatView</servlet-name>
+        <url-pattern>/druid/*</url-pattern>
+    </servlet-mapping>
 
     <!-- Session超时30分钟(零或负数表示会话永不超时) -->
     <session-config>
