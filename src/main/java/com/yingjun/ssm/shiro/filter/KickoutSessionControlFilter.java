@@ -8,6 +8,8 @@ import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.AccessControlFilter;
 import org.apache.shiro.web.util.WebUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -22,6 +24,7 @@ import java.util.LinkedList;
  * AccessControlFilter提供了访问控制的基础功能；比如是否允许访问/当访问拒绝时如何处理等
  */
 public class KickoutSessionControlFilter extends AccessControlFilter {
+    private static final Logger LOG = LoggerFactory.getLogger(KickoutSessionControlFilter.class);
 
     private String kickoutUrl; //踢出后到的地址
     private boolean kickoutAfter = false; //踢出之前登录的/之后登录的用户 默认踢出之前登录的用户
@@ -57,6 +60,7 @@ public class KickoutSessionControlFilter extends AccessControlFilter {
 
     @Override
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
+        LOG.info("限制一个账号多处登录处理");
         System.out.println("--->kickoutfilter start...");
         Subject subject = getSubject(request, response);
         if (!subject.isAuthenticated() && !subject.isRemembered()) {

@@ -38,7 +38,7 @@ public class ClearCacheAop {
 
     @Before("clearCachePointcut()")
     public void beforeAdvice(JoinPoint joinPoint) {
-        System.out.println("--->clearCachePointcut start...");
+        System.out.println("--->clearCacheAop start...");
 //        String className = jp.getTarget().getClass().getName(); // 这句话得到的是代理类对象
 //        String fullMethod = joinPoint.getSignature().toString().split("\\s")[1]; // 这样才能拿到真实类对象
 //        String className = fullMethod.substring(0, fullMethod.lastIndexOf("."));

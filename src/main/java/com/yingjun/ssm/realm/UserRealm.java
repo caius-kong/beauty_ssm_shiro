@@ -8,6 +8,8 @@ import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.HashSet;
@@ -16,6 +18,7 @@ import java.util.HashSet;
  * shiro管理的对象，完成身份认证、授权查询
  */
 public class UserRealm extends AuthorizingRealm {
+    private static final Logger LOG = LoggerFactory.getLogger(UserRealm.class);
 
     @Autowired
     private UserService userService;
@@ -25,6 +28,7 @@ public class UserRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
+        LOG.info("授权查询");
         String username = (String)principals.getPrimaryPrincipal();
 
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
@@ -34,11 +38,12 @@ public class UserRealm extends AuthorizingRealm {
     }
 
     /**
-     * 认证回调函数,登录时调用.
+     * 身份认证回调函数,登录时调用.
      */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
 //        String username = (String)token.getPrincipal();
+        LOG.info("身份认证");
         UsernamePasswordToken usernamePasswordToken = (UsernamePasswordToken)token;
         String username = usernamePasswordToken.getUsername();
         User user = userService.findByUsername(username);

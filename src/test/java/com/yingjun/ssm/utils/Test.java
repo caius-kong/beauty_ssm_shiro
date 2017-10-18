@@ -24,6 +24,8 @@ import org.joda.time.LocalDate;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by kongyunhui on 16/10/20.
@@ -180,10 +182,19 @@ public class Test {
 //        boolean master = threadLocalDs.contains("master");
 //        System.out.println(master);
 
-        ArrayList<String> readDataSourceKeyList = Lists.newArrayList("slave1", "slave1", "slave1", "slave1", "slave1", "slave2");
-        for(int i=0; i<30; i++) {
-            String ds_key = readDataSourceKeyList.get(RandomUtils.nextInt(0, readDataSourceKeyList.size()));
-            System.out.println(ds_key);
+//        ArrayList<String> readDataSourceKeyList = Lists.newArrayList("slave1", "slave1", "slave1", "slave1", "slave1", "slave2");
+//        for(int i=0; i<30; i++) {
+//            String ds_key = readDataSourceKeyList.get(RandomUtils.nextInt(0, readDataSourceKeyList.size()));
+//            System.out.println(ds_key);
+//        }
+
+        String methodName = "createUser";
+        Pattern pattern = Pattern.compile("^[save|add|create|insert|update|merge|del|remove|put].*");
+        Matcher matcher = pattern.matcher(methodName);
+        if(matcher.matches()){
+            System.out.println("hit");
+        } else {
+            System.out.println("miss");
         }
     }
 
